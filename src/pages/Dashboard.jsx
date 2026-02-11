@@ -22,6 +22,10 @@ function Dashboard(){
         ...new Set(expenses.map(exp => exp.category))
         ]
 
+    const subtotal = filteredExpenses.reduce(
+        (acc, exp) => acc + Number(exp.amount),0
+    )
+
     useEffect(() => {
         checkUser()
         fetchExpenses()
@@ -77,8 +81,6 @@ function Dashboard(){
     return(
         <div>
             <h1>Dashboard</h1>
-            <button onClick={handleLogout}>Logout</button>
-            <h2>Total: R$ {total.toFixed(2)}</h2>
             <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}            
@@ -90,6 +92,14 @@ function Dashboard(){
                     </option>
                 ))}
             </select>
+            <h2>Total Geral: R$ {total.toFixed(2)}</h2>
+                {filter !== "all" && (
+                    <h3>
+                        Subtotal ({filter}): R$ {subtotal.toFixed(2)}
+                    </h3>
+                )}
+            
+            <button onClick={handleLogout}>Logout</button>
             <ExpenseForm onAddExpense={addExpense} />
             <ExpenseList 
                 expenses={filteredExpenses}
