@@ -1,16 +1,100 @@
-# React + Vite
+# 💰 Expense Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web para controle de despesas pessoais com autenticação de usuários, persistência em banco de dados e agregações dinâmicas.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias Utilizadas
 
-## React Compiler
+- React
+- Vite
+- Supabase (Auth + PostgreSQL)
+- React Router
+- CSS puro
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🔐 Funcionalidades
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Autenticação com email e senha (Supabase Auth)
+- Isolamento de dados por usuário utilizando Row Level Security (RLS)
+- Cadastro de despesas
+- Listagem ordenada por data
+- Exclusão de despesas
+- Filtro por categoria
+- Cálculo de total geral
+- Cálculo de subtotal por categoria filtrada
+- Estados de loading e feedback visual
+
+---
+
+## 🗄️ Estrutura do Banco de Dados
+
+Tabela `expenses`:
+
+| Campo        | Tipo       |
+|--------------|------------|
+| id           | uuid       |
+| description  | text       |
+| amount       | numeric    |
+| category     | text       |
+| date         | date       |
+| user_id      | uuid       |
+| created_at   | timestamp  |
+
+### 🔒 Segurança
+
+RLS ativado com a seguinte policy:
+
+```sql
+create policy "Users can manage their expenses"
+on expenses
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+```
+
+Garantindo que cada usuário acesse apenas suas próprias despesas.
+
+---
+
+
+## 🧠 Decisões Técnicas
+
+- Separação entre páginas, componentes e serviços para melhor organização.
+- Supabase utilizado para simplificar backend e autenticação.
+- Aplicação de Row Level Security (RLS) para garantir segurança por usuário.
+- Cálculos de total e subtotal realizados no frontend via `Array.reduce`.
+- Filtro de categorias gerado dinamicamente a partir dos dados cadastrados.
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+ ├ pages/
+ │   ├ Login.jsx
+ │   └ Dashboard.jsx
+ ├ components/
+ │   ├ ExpenseForm.jsx
+ │   ├ ExpenseList.jsx
+ │   └ ExpenseItem.jsx
+ ├ services/
+ │   └ supabaseClient.js
+ ├ App.jsx
+ ├ main.jsx
+ └ styles.css
+```
+
+---
+
+## 🎯 Objetivo do Projeto
+
+Este projeto foi desenvolvido para demonstrar:
+
+- Integração com Supabase
+- Implementação de autenticação
+- Aplicação de Row Level Security
+- Estruturação adequada de aplicação React
+- Utilização de Git com commits semânticos
