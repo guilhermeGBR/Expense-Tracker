@@ -8,7 +8,9 @@ function Dashboard(){
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
     const [expenses, setExpenses] = useState([])
-
+    const total = expenses.reduce(
+        (acc, expense) => acc + Number(expense.amount),0
+    )
 
 
     useEffect(() => {
@@ -67,6 +69,7 @@ function Dashboard(){
         <div>
             <h1>Dashboard</h1>
             <button onClick={handleLogout}>Logout</button>
+            <h2>Total: R$ {total.toFixed(2)}</h2>
             <ExpenseForm onAddExpense={addExpense} />
             <ExpenseList 
                 expenses={expenses}
