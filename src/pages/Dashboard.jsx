@@ -11,7 +11,16 @@ function Dashboard(){
     const total = expenses.reduce(
         (acc, expense) => acc + Number(expense.amount),0
     )
+    const [filter, setFilter] = useState("all")
 
+    const filteredExpenses =
+        filter === "all"
+            ? expenses
+            : expenses.filter(exp => exp.category === filter)
+
+    const categories = [
+        ...new Set(expenses.map(exp => exp.category))
+        ]
 
     useEffect(() => {
         checkUser()
@@ -70,9 +79,20 @@ function Dashboard(){
             <h1>Dashboard</h1>
             <button onClick={handleLogout}>Logout</button>
             <h2>Total: R$ {total.toFixed(2)}</h2>
+            <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}            
+            >
+                <option value="all">Todas</option>
+                {categories.map((cat, index) => (
+                    <option key={index} value={cat}>
+                        {cat}
+                    </option>
+                ))}
+            </select>
             <ExpenseForm onAddExpense={addExpense} />
             <ExpenseList 
-                expenses={expenses}
+                expenses={filteredExpenses}
                 onDelete={deleteExpense}
             />
         </div>
