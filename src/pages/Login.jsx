@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { supabase } from "../services/supabaseClient"
 
 function Login() {
@@ -49,7 +49,7 @@ function Login() {
             <form onSubmit={handleLogin}>
                 <div>
                     <label>Email</label>
-                    <br />
+                    <br/>
                     <input
                         type="email"
                         value={email}
@@ -60,7 +60,7 @@ function Login() {
 
                 <div style={{ marginTop: "10px" }}>
                     <label>Senha</label>
-                    <br />
+                    <br/>
                     <input
                         type="password"
                         value={password}
@@ -82,6 +82,10 @@ function Login() {
                 >
                 {loading ? "Entrando..." : "Entrar"}
                 </button>
+
+                <p style={{ marginTop: "10px"}}>
+                    Não tem conta? <Link to="/register">Criar conta</Link>     
+                </p>
             </form>
         </div>
         </div>

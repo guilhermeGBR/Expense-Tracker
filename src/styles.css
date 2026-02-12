@@ -109,3 +109,7 @@ summary{
 .summary h3{
     color: lightslategray;
 }
+
+form label{
+    color: black
+}
