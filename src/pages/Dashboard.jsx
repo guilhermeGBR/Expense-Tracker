@@ -79,28 +79,35 @@ function Dashboard(){
     }
 
     return(
-        <div>
-            <h1>Dashboard</h1>
-            <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}            
-            >
-                <option value="all">Todas</option>
-                {categories.map((cat, index) => (
-                    <option key={index} value={cat}>
-                        {cat}
-                    </option>
-                ))}
-            </select>
-            <h2>Total Geral: R$ {total.toFixed(2)}</h2>
+        <div className="container">
+            <div className="dashboard-header">
+                <h1>Expense Tracker</h1>
+                    <button onClick={handleLogout}>Logout</button>
+            </div>
+            <div className="summary">
+                <h2>Total Geral: R$ {total.toFixed(2)}</h2>
+
                 {filter !== "all" && (
                     <h3>
                         Subtotal ({filter}): R$ {subtotal.toFixed(2)}
                     </h3>
                 )}
+            </div>
             
-            <button onClick={handleLogout}>Logout</button>
-            <ExpenseForm onAddExpense={addExpense} />
+            <div className="card">
+                <select 
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                >
+                    <option value="all"> Todas</option>
+                    {categories.map((cat, index) => (
+                        <option key={index} value={cat}>
+                            {cat}
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <ExpenseForm onAddExpense={addExpense}/>
             <ExpenseList 
                 expenses={filteredExpenses}
                 onDelete={deleteExpense}
